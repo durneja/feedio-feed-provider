@@ -2,6 +2,7 @@ const httpStatus = require('http-status');
 const { User } = require('../models');
 const ApiError = require('../utils/ApiError');
 const axios = require('axios');
+const { exchangeKeys } = require('../config');
 
 /**
  * Query for data
@@ -9,25 +10,26 @@ const axios = require('axios');
  */
 const getData = async () => {
   const binancePromise = fetchBinanceData();
-  const coinmarketPromise = fetchCoinmarketcapData();
-  const coinGeckoPromise = fetchCoingeckoData();
+  const coinMarketPromise = fetchCoinMarketcapData();
+  const coinGeckoPromise = fetchCoinGeckoData();
 
-  const data = await Promise.all([binancePromise, coinmarketPromise, coinGeckoPromise]);
+  const data = await Promise.all([binancePromise, coinMarketPromise, coinGeckoPromise]);
 
-  return (200, {"response": data});
+  return {"response": data};
 };
 
 const postProcess = (data) => {
   var result = [];
-  const dataLen = data.length;
-  for(var i=0; i < dataLen; i++)
-   result.push((data[0][i] + data[1][i] + data[2][i]) / 3);
+  data.forEach((arr) => {})
+  // const dataLen = data.length;
+  // for(var i=0; i < dataLen; i++)
+  //  result.push((data[0][i] + data[1][i] + data[2][i]) / 3);
 
   return result;
 }
 
 const fetchBinanceData = () => {
-  const fetchURL = exchangeInfoMap.binance.baseUrl + exchangeInfoMap.binance.endpoint;
+  const fetchURL = `${exchangeInfoMap.binance.baseUrl}${exchangeInfoMap.binance.endpoint}`;
 
   let response = null;
   return new Promise(async (resolve, reject) => {
@@ -51,37 +53,25 @@ const fetchBinanceData = () => {
 }
 
 const processBinanceResponse = (data) => {
+  // console.log('binance data --', data)
 
-  //Order: BTC, ETH, NEO, GAS
-  let values = new Array(4);
-  data.forEach(entry => {
-    let key = entry.symbol;
-    switch (key) {
-      case exchangeInfoMap.binance.BTC:
-        values[0] = parseFloat(entry.price);
-        break;
-      case exchangeInfoMap.binance.ETH:
-        values[1] = parseFloat(entry.price);
-        break;
-      case exchangeInfoMap.binance.NEO:
-        values[2] = parseFloat(entry.price);
-        break;
-      case exchangeInfoMap.binance.GAS:
-        values[3] = parseFloat(entry.price);
-        break;
-      default:
-        break;
-    }
-  });
-  
-  values[3] = values[3] * values[0];
+  let values = [];
+  data.forEach((el) => {
+    exchangeKeys.forEach((key) => {
+      if (el.symbol === exchangeInfoMap.binance[key]) {
+        values.push({[key]: parseFloat(el.price)})
+      }
+    })
+  })
+  values.find(val => Object.keys(val)[0] === exchangeKeys[3])[exchangeKeys[3]] = values.find(val => Object.keys(val)[0] === exchangeKeys[3])[exchangeKeys[3]] * values.find(val => Object.keys(val)[0] === exchangeKeys[0])[exchangeKeys[0]]
+  // console.log('binance final values--', values);
   return values;
 }
 
-const fetchCoinmarketcapData = () => {
+const fetchCoinMarketcapData = () => {
   const headerKey = exchangeInfoMap.coinmarketcap.authHeader;
   const headerVal = exchangeInfoMap.coinmarketcap.apiKey;
-  const fetchURL = exchangeInfoMap.coinmarketcap.baseUrl + exchangeInfoMap.coinmarketcap.endpoint + "?id=1,1027,1376,1785";
+  const fetchURL = `${exchangeInfoMap.coinmarketcap.baseUrl}${exchangeInfoMap.coinmarketcap.endpoint}?id=1,1027,1376,1785`;
 
   let response = null;
   return new Promise(async (resolve, reject) => {
@@ -101,26 +91,30 @@ const fetchCoinmarketcapData = () => {
     if (response) {
       // success
       const jsonResponse = response.data;
-      const extractedValues = processCoinmarketcapResponse(jsonResponse.data);
+      const extractedValues = processCoinMarketcapResponse(jsonResponse.data);
       resolve(extractedValues);
     }
   
   });
     
 }
-const processCoinmarketcapResponse = (data) => {
-  //Order: BTC, ETH, NEO, GAS
-  let values = new Array(4);
-  values[0] = data[exchangeInfoMap.coinmarketcap.BTC]?.quote.USD.price;
-  values[1] = data[exchangeInfoMap.coinmarketcap.ETH]?.quote.USD.price;
-  values[2] = data[exchangeInfoMap.coinmarketcap.NEO]?.quote.USD.price;
-  values[3] = data[exchangeInfoMap.coinmarketcap.GAS]?.quote.USD.price;
-
+const processCoinMarketcapResponse = (data) => {
+  // console.log('coinmarketcap data--', data)
+  let values = [];
+  // handling CoinMarketCap Object response
+  Object.keys(data).forEach((el) => {
+    exchangeKeys.forEach((key) => {
+      if (el === exchangeInfoMap.coinmarketcap[key]) {
+        values.push({[key]: data[exchangeInfoMap.coinmarketcap[key]]?.quote.USD.price})
+      }
+    })
+  })
+  // console.log('coinmarketcap final values--', values);
   return values;
 
 }
-const fetchCoingeckoData = () => {
-  const fetchURL = exchangeInfoMap.coingecko.baseUrl + exchangeInfoMap.coingecko.endpoint + "?vs_currency=usd&ids=bitcoin,ethereum,neo,gas";
+const fetchCoinGeckoData = () => {
+  const fetchURL = `${exchangeInfoMap.coingecko.baseUrl }${exchangeInfoMap.coingecko.endpoint}?vs_currency=usd&ids=bitcoin,ethereum,neo,gas`;
 
   let response = null;
   return new Promise(async (resolve, reject) => {
@@ -136,37 +130,25 @@ const fetchCoingeckoData = () => {
     if (response) {
       // success
       const jsonResponse = response.data;
-      const extractedValues = processCoingeckoResponse(jsonResponse);
+      const extractedValues = processCoinGeckoResponse(jsonResponse);
       resolve(extractedValues);
     }
   
   });  
 }
 
-const processCoingeckoResponse = (data) => {
+const processCoinGeckoResponse = (data) => {
+  // console.log('coingecko data--', data);
 
-  //Order: BTC, ETH, NEO, GAS
-  let values = new Array(4);
-  data.forEach(entry => {
-    let key = entry.id;
-    switch (key) {
-      case exchangeInfoMap.coingecko.BTC:
-        values[0] = entry.current_price;
-        break;
-      case exchangeInfoMap.coingecko.ETH:
-        values[1] = entry.current_price;
-        break;
-      case exchangeInfoMap.coingecko.NEO:
-        values[2] = entry.current_price;
-        break;
-      case exchangeInfoMap.coingecko.GAS:
-        values[3] = entry.current_price;
-        break;
-      default:
-        break;
-    }
-  });
-  
+  let values = [];
+  data.forEach((el) => {
+    exchangeKeys.forEach((key) => {
+      if (el.id === exchangeInfoMap.coingecko[key]) {
+        values.push({[key]: el.current_price})
+      }
+    })
+  })
+  // console.log('coingecko final values--', values)
   return values;
 
 }
