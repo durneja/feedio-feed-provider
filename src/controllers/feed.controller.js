@@ -6,6 +6,7 @@ const { feedService } = require('../services');
 
 const getData = catchAsync(async (req, res) => {
   const result = await feedService.getData();
+  console.log(result);
   res.send(result);
 });
 
