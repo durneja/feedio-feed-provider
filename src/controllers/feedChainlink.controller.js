@@ -7,7 +7,7 @@ const { feedChainlinkService } = require('../services');
 const getData = catchAsync(async (req, res) => {
   const result = await feedChainlinkService.getData();
   console.log(result);
-  res.send(result);
+  res.send({"data": result});
 });
 
 module.exports = {
