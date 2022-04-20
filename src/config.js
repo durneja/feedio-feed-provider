@@ -1,5 +1,5 @@
 module.exports = {
-    exchangeKeys: [
+    currencyKeys: [
         'BTC',
         'ETH',
         'NEO',
