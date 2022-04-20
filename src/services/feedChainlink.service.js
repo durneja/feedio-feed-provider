@@ -4,6 +4,7 @@ const ApiError = require('../utils/ApiError');
 const axios = require('axios');
 const ethers = require('ethers');
 const { currencyKeys } = require('../config');
+const { aggregatorV3InterfaceABI} = require('../helpers/feed.helper');
 
 /**
  * Query for data
@@ -30,56 +31,6 @@ const contractMap = {
 const getCryptoPrice = async (coin) => {
 
   const provider = new ethers.providers.JsonRpcProvider('https://speedy-nodes-nyc.moralis.io/439411c855bf222c58850d77/eth/mainnet');
-
-  const aggregatorV3InterfaceABI = [
-      {
-          inputs: [],
-          name: 'decimals',
-          outputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
-          stateMutability: 'view',
-          type: 'function'
-      },
-      {
-          inputs: [],
-          name: 'description',
-          outputs: [{ internalType: 'string', name: '', type: 'string' }],
-          stateMutability: 'view',
-          type: 'function'
-      },
-      {
-          inputs: [{ internalType: 'uint80', name: '_roundId', type: 'uint80' }],
-          name: 'getRoundData',
-          outputs: [
-              { internalType: 'uint80', name: 'roundId', type: 'uint80' },
-              { internalType: 'int256', name: 'answer', type: 'int256' },
-              { internalType: 'uint256', name: 'startedAt', type: 'uint256' },
-              { internalType: 'uint256', name: 'updatedAt', type: 'uint256' },
-              { internalType: 'uint80', name: 'answeredInRound', type: 'uint80' }
-          ],
-          stateMutability: 'view',
-          type: 'function'
-      },
-      {
-          inputs: [],
-          name: 'latestRoundData',
-          outputs: [
-              { internalType: 'uint80', name: 'roundId', type: 'uint80' },
-              { internalType: 'int256', name: 'answer', type: 'int256' },
-              { internalType: 'uint256', name: 'startedAt', type: 'uint256' },
-              { internalType: 'uint256', name: 'updatedAt', type: 'uint256' },
-              { internalType: 'uint80', name: 'answeredInRound', type: 'uint80' }
-          ],
-          stateMutability: 'view',
-          type: 'function'
-      },
-      {
-          inputs: [],
-          name: 'version',
-          outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-          stateMutability: 'view',
-          type: 'function'
-      }
-  ];
 
   const addr = contractMap[coin];
   const priceFeed = new ethers.Contract(addr, aggregatorV3InterfaceABI, provider);
