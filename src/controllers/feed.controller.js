@@ -5,9 +5,9 @@ const catchAsync = require('../utils/catchAsync');
 const { feedService } = require('../services');
 
 const getData = catchAsync(async (req, res) => {
-  const result = await feedService.getData();
-  console.log(result);
-  res.send({"data": result});
+  const data = await feedService.getData();
+  console.log(data);
+  res.send({ data });
 });
 
 module.exports = {
