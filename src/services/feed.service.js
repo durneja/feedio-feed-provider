@@ -15,7 +15,7 @@ const getData = async () => {
 
   const data = await Promise.all([binancePromise, coinMarketPromise, coinGeckoPromise]);
 
-  return {"response": postProcess(data)};
+  return postProcess(data);
 };
 
 const postProcess = (data) => {

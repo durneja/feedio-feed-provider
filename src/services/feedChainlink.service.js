@@ -3,6 +3,7 @@ const { User } = require('../models');
 const ApiError = require('../utils/ApiError');
 const axios = require('axios');
 const ethers = require('ethers');
+const { currencyKeys } = require('../config');
 
 /**
  * Query for data
@@ -10,8 +11,15 @@ const ethers = require('ethers');
  */
 const getData = async () => {
 
-  const data = getCryptoPrice("BTC");
-  return data;
+  const btcPromise = getCryptoPrice(currencyKeys[0]);
+  const ethPromise = getCryptoPrice(currencyKeys[1]);
+
+  const data = await Promise.all([btcPromise, ethPromise]);
+  let result = {};
+  for(let i = 0; i < data.length; i++) {
+    result[currencyKeys[i]] = data[i];
+  }  
+  return result;
 };
 
 const contractMap = {
