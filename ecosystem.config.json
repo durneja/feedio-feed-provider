@@ -1,7 +1,7 @@
 {
   "apps": [
     {
-      "name": "app",
+      "name": "feedio-feed-provider",
       "script": "src/index.js",
       "instances": 1,
       "autorestart": true,
