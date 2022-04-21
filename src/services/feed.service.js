@@ -8,7 +8,7 @@ const {
 } = require('../helpers/feed.helper');
 
 /**
- * Query for data
+ * Trigger price feed data fetch from binance, coingecko and coinmarketcap
  * @returns {Promise<QueryResult>}
  */
 const getData = async () => {
