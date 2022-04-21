@@ -42,4 +42,4 @@ jobs:
           cd ~/server/feedio-feed-provider
           git pull origin master
           npm install --production
-          pm2 restart node-app
+          pm2 restart feedio-feed-provider
