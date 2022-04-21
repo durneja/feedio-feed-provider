@@ -22,4 +22,4 @@ jobs:
           cd ~/server/feedio-feed-provider
           git pull origin master
           npm install --production
-          pm2 restart app
+          pm2 restart ecosystem.config.json
