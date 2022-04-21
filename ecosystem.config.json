@@ -8,7 +8,9 @@
       "watch": false,
       "time": true,
       "env": {
-        "NODE_ENV": "production"
+        "NODE_ENV": "production",
+        "MONGODB_URL": "mongodb://127.0.0.1:27017/fdio-feed-provider",
+        "JWT_SECRET": "durneja123"
       }
     }
   ]
