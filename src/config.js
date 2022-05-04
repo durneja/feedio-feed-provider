@@ -1,8 +1,10 @@
 const currencyKeys = [
-  'BTC',
-  'ETH',
-  'NEO',
-  'GAS',
+  "BTC",
+  "ETH",
+  "NEO",
+  "GAS",
+  "BNB",
+  "MATIC"
 ];
 
 const exchangeInfoMap = {
@@ -12,7 +14,9 @@ const exchangeInfoMap = {
     "BTC": "BTCUSDT",
     "ETH": "ETHUSDT",
     "NEO": "NEOUSDT",
-    "GAS": "GASBTC"
+    "GAS": "GASBTC",
+    "BNB": "BNBUSDT",
+    "MATIC": "MATICUSDT"
   },
   "coinmarketcap": {
     "baseUrl": "https://pro-api.coinmarketcap.com/v1/",
@@ -22,7 +26,9 @@ const exchangeInfoMap = {
     "BTC": "1",
     "ETH": "1027",
     "NEO": "1376",
-    "GAS": "1785"
+    "GAS": "1785",
+    "BNB": "1839",
+    "MATIC": "3890"
   },
   "coingecko": {
     "baseUrl": "https://api.coingecko.com/api/v3/",
@@ -30,7 +36,9 @@ const exchangeInfoMap = {
     "BTC": "bitcoin",
     "ETH": "ethereum",
     "NEO": "neo",
-    "GAS": "gas"
+    "GAS": "gas",
+    "BNB": "binancecoin",
+    "MATIC": "matic-network"
   }
 };
 

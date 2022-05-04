@@ -7,7 +7,7 @@ const { feedService } = require('../services');
 const getData = catchAsync(async (req, res) => {
   const data = await feedService.getData();
   console.log(data);
-  res.send({ data });
+  res.send({ "timestamp": Date.now(), data });
 });
 
 module.exports = {
