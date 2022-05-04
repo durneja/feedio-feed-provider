@@ -37,7 +37,7 @@ const getCryptoPrice = async (coin) => {
   const bnbPromise = getCryptoPrice(currencyKeys[2]);
   const maticPromise = getCryptoPrice(currencyKeys[3]);
 
-  const data = await Promise.all([btcPromise, ethPromise]);
+  const data = await Promise.all([btcPromise, ethPromise, bnbPromise, maticPromise]);
   let result = {};
   for(let i = 0; i < data.length; i++) {
     result[currencyKeys[i]] = data[i];
