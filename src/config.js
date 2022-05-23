@@ -4,7 +4,12 @@ const currencyKeys = [
   "NEO",
   "GAS",
   "BNB",
-  "MATIC"
+  "MATIC",
+  "LINK",
+  "ADA",
+  "SOL",
+  "DOT",
+  "UNI"
 ];
 
 const exchangeInfoMap = {
@@ -16,7 +21,12 @@ const exchangeInfoMap = {
     "NEO": "NEOUSDT",
     "GAS": "GASBTC",
     "BNB": "BNBUSDT",
-    "MATIC": "MATICUSDT"
+    "MATIC": "MATICUSDT",
+    "LINK": "LINKUSDT",
+    "ADA": "ADAUSDT",
+    "SOL": "SOLUSDT",
+    "DOT": "DOTUSDT",
+    "UNI": "UNIUSDT"
   },
   "coinmarketcap": {
     "baseUrl": "https://pro-api.coinmarketcap.com/v1/",
@@ -28,7 +38,12 @@ const exchangeInfoMap = {
     "NEO": "1376",
     "GAS": "1785",
     "BNB": "1839",
-    "MATIC": "3890"
+    "MATIC": "3890",
+    "LINK": "1975",
+    "ADA": "2010",
+    "SOL": "5426",
+    "DOT": "6636",
+    "UNI": "7083"  
   },
   "coingecko": {
     "baseUrl": "https://api.coingecko.com/api/v3/",
@@ -38,7 +53,12 @@ const exchangeInfoMap = {
     "NEO": "neo",
     "GAS": "gas",
     "BNB": "binancecoin",
-    "MATIC": "matic-network"
+    "MATIC": "matic-network",
+    "LINK": "chainlink",
+    "ADA": "cardano",
+    "SOL": "solana",
+    "DOT": "polkadot",
+    "UNI": "uniswap"
   }
 };
 

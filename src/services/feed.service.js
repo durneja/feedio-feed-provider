@@ -48,7 +48,7 @@ const fetchBinanceData = () => {
 const fetchCoinMarketcapData = () => {
   const headerKey = exchangeInfoMap.coinmarketcap.authHeader;
   const headerVal = exchangeInfoMap.coinmarketcap.apiKey;
-  const fetchURL = `${exchangeInfoMap.coinmarketcap.baseUrl}${exchangeInfoMap.coinmarketcap.endpoint}?id=1,1027,1376,1785,1839,3890`;
+  const fetchURL = `${exchangeInfoMap.coinmarketcap.baseUrl}${exchangeInfoMap.coinmarketcap.endpoint}?id=1,1027,1376,1785,1839,3890,1975,2010,5426,6636,7083`;
 
   let response = null;
   return new Promise(async (resolve, reject) => {
@@ -77,7 +77,7 @@ const fetchCoinMarketcapData = () => {
 }
 
 const fetchCoinGeckoData = () => {
-  const fetchURL = `${exchangeInfoMap.coingecko.baseUrl }${exchangeInfoMap.coingecko.endpoint}?vs_currency=usd&ids=bitcoin,ethereum,neo,gas,binancecoin,matic-network`;
+  const fetchURL = `${exchangeInfoMap.coingecko.baseUrl }${exchangeInfoMap.coingecko.endpoint}?vs_currency=usd&ids=bitcoin,ethereum,neo,gas,binancecoin,matic-network,chainlink,cardano,solana,polkadot,uniswap`;
 
   let response = null;
   return new Promise(async (resolve, reject) => {
